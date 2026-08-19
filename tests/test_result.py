@@ -99,6 +99,19 @@ def test_map_err() -> None:
     assert err.map_err(apply) == rm.Err("SOME ERROR MESSAGE")
 
 
+def test_map_or() -> None:
+    """map_or should return the result of func if Ok and should return default if Err"""
+
+    def apply(message: str) -> str:
+        return message.upper()
+
+    ok = rm.Ok("Hello world")
+    assert ok.map_or("DEFAULT", apply) == "HELLO WORLD"
+
+    err = rm.Err("Some error message")
+    assert err.map_or("DEFAULT", apply) == "DEFAULT"
+
+
 def test_or_() -> None:
     """or_ should return self if Ok and the input result if Err"""
     result_ok = rm.Ok("Input Ok result")
