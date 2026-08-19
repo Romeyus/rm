@@ -134,3 +134,13 @@ def test_unwrap() -> None:
     err = rm.Err("Some error message")
     with pytest.raises(rm.Panic):
         err.unwrap()
+
+
+def test_unwrap_err() -> None:
+    """unwrap_err should raise Panic if Ok and should return the wrapped value if Err"""
+    ok = rm.Ok(0)
+    with pytest.raises(rm.Panic):
+        ok.unwrap_err()
+
+    err = rm.Err("Some error message")
+    assert err.unwrap_err() == "Some error message"
