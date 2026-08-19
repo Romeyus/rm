@@ -15,6 +15,9 @@ class Ok[T, E = Any]:
     def map[U](self, func: Callable[[T], U]) -> Result[U, E]:
         return Ok(func(self.value))
 
+    def map_err[F](self, func: Callable[[E], F]) -> Result[T, F]:
+        return cast(Result[T, F], self)
+
     def or_[F](self, result: Result[T, F]) -> Result[T, F]:
         return cast(Result[T, F], self)
 
@@ -28,6 +31,9 @@ class Err[E, T = Any]:
 
     def map[U](self, func: Callable[[T], U]) -> Result[U, E]:
         return cast(Result[U, E], self)
+
+    def map_err[F](self, func: Callable[[E], F]) -> Result[T, F]:
+        return Err(func(self.value))
 
     def or_[F](self, result: Result[T, F]) -> Result[T, F]:
         return result

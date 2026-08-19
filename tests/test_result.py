@@ -37,6 +37,19 @@ def test_map() -> None:
     assert err.map(apply) == err
 
 
+def test_map_err() -> None:
+    """map_err should return self if Ok and an Err with the value of the applied function if Err"""
+
+    def apply(message: str) -> str:
+        return message.upper()
+
+    ok = rm.Ok("Hello world")
+    assert ok.map_err(apply) == ok
+
+    err = rm.Err("Some error message")
+    assert err.map_err(apply) == rm.Err("SOME ERROR MESSAGE")
+
+
 def test_or_() -> None:
     """or_ should return self if Ok and the input result if Err"""
     result_ok = rm.Ok("Input Ok result")
