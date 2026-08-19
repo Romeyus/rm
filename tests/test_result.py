@@ -24,6 +24,21 @@ def test_and_() -> None:
     assert err.and_(result_err) == err
 
 
+def test_and_then() -> None:
+    """and_then should return the output result of the input function if Ok and self if Err"""
+
+    def square_root(number: int) -> rm.Result[float, str]:
+        if number < 0:
+            return rm.Err("cannot square root a negative number")
+        return rm.Ok(number**0.5)
+
+    ok = rm.Ok(100)
+    assert ok.and_then(square_root) == rm.Ok(10.0)
+
+    err = rm.Err("Some error message")
+    assert err.and_then(square_root) == err
+
+
 def test_map() -> None:
     """map should return an Ok with the value of the applied function if Ok and self if Err"""
 
