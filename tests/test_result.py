@@ -1,3 +1,5 @@
+from unittest import mock
+
 import rm
 
 
@@ -37,6 +39,21 @@ def test_and_then() -> None:
 
     err = rm.Err("Some error message")
     assert err.and_then(square_root) == err
+
+
+def test_inspect() -> None:
+    """inspect should be called once if Ok and should not be called if Err"""
+    mock_func = mock.Mock()
+
+    ok = rm.Ok(0)
+    assert ok.inspect(mock_func) == ok
+    mock_func.assert_called_once()
+
+    mock_func.reset_mock()
+
+    err = rm.Err("Some error message")
+    assert err.inspect(mock_func) == err
+    mock_func.assert_not_called()
 
 
 def test_map() -> None:

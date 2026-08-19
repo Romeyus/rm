@@ -15,6 +15,10 @@ class Ok[T, E = Any]:
     def and_then[U](self, func: Callable[[T], Result[U, E]]) -> Result[U, E]:
         return func(self.value)
 
+    def inspect(self, func: Callable[[T], Any]) -> Result[T, E]:
+        func(self.value)
+        return self
+
     def map[U](self, func: Callable[[T], U]) -> Result[U, E]:
         return Ok(func(self.value))
 
@@ -37,6 +41,9 @@ class Err[E, T = Any]:
 
     def and_then[U](self, func: Callable[[T], Result[U, E]]) -> Result[U, E]:
         return cast(Result[U, E], self)
+
+    def inspect(self, func: Callable[[T], Any]) -> Result[T, E]:
+        return self
 
     def map[U](self, func: Callable[[T], U]) -> Result[U, E]:
         return cast(Result[U, E], self)
