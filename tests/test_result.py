@@ -22,3 +22,17 @@ def test_and_() -> None:
     err = rm.Err("Some error message")
     assert err.and_(result_ok) == err
     assert err.and_(result_err) == err
+
+
+def test_or_() -> None:
+    """or_ should return self if Ok and the input result if Err"""
+    result_ok = rm.Ok("Input Ok result")
+    result_err = rm.Err("Input Err result")
+
+    ok = rm.Ok("Original Ok result")
+    assert ok.or_(result_ok) == ok
+    assert ok.or_(result_err) == ok
+
+    err = rm.Err("Some error message")
+    assert err.or_(result_ok) == result_ok
+    assert err.or_(result_err) == result_err

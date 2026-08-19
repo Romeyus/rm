@@ -11,6 +11,9 @@ class Ok[T, E = Any]:
     def and_[U](self, result: Result[U, E]) -> Result[U, E]:
         return result
 
+    def or_[F](self, result: Result[T, F]) -> Result[T, F]:
+        return cast(Result[T, F], self)
+
 
 @dataclass(frozen=True, slots=True)
 class Err[E, T = Any]:
@@ -18,3 +21,6 @@ class Err[E, T = Any]:
 
     def and_[U](self, result: Result[U, E]) -> Result[U, E]:
         return cast(Result[U, E], self)
+
+    def or_[F](self, result: Result[T, F]) -> Result[T, F]:
+        return result
