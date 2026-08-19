@@ -112,6 +112,22 @@ def test_map_or() -> None:
     assert err.map_or("DEFAULT", apply) == "DEFAULT"
 
 
+def test_map_or_else() -> None:
+    """map_or_else should return the result of func if Ok and should return the result of default if Err"""
+
+    def apply(message: str) -> str:
+        return message.upper()
+
+    def apply_default(message: str) -> str:
+        return message.lower()
+
+    ok = rm.Ok("Hello world")
+    assert ok.map_or_else(apply_default, apply) == "HELLO WORLD"
+
+    err = rm.Err("Some error message")
+    assert err.map_or_else(apply_default, apply) == "some error message"
+
+
 def test_or_() -> None:
     """or_ should return self if Ok and the input result if Err"""
     result_ok = rm.Ok("Input Ok result")
