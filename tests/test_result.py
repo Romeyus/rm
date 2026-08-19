@@ -56,6 +56,21 @@ def test_inspect() -> None:
     mock_func.assert_not_called()
 
 
+def test_inspect_err() -> None:
+    """inspect_err should not be called if Ok and should be called once if Err"""
+    mock_func = mock.Mock()
+
+    ok = rm.Ok(0)
+    assert ok.inspect_err(mock_func) == ok
+    mock_func.assert_not_called()
+
+    mock_func.reset_mock()
+
+    err = rm.Err("Some error message")
+    assert err.inspect_err(mock_func) == err
+    mock_func.assert_called_once()
+
+
 def test_map() -> None:
     """map should return an Ok with the value of the applied function if Ok and self if Err"""
 

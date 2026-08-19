@@ -19,6 +19,9 @@ class Ok[T, E = Any]:
         func(self.value)
         return self
 
+    def inspect_err(self, func: Callable[[E], Any]) -> Result[T, E]:
+        return self
+
     def map[U](self, func: Callable[[T], U]) -> Result[U, E]:
         return Ok(func(self.value))
 
@@ -43,6 +46,10 @@ class Err[E, T = Any]:
         return cast(Result[U, E], self)
 
     def inspect(self, func: Callable[[T], Any]) -> Result[T, E]:
+        return self
+
+    def inspect_err(self, func: Callable[[E], Any]) -> Result[T, E]:
+        func(self.value)
         return self
 
     def map[U](self, func: Callable[[T], U]) -> Result[U, E]:
