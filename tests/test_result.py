@@ -77,3 +77,16 @@ def test_or_() -> None:
     err = rm.Err("Some error message")
     assert err.or_(result_ok) == result_ok
     assert err.or_(result_err) == result_err
+
+
+def test_or_else() -> None:
+    """or_else should return self if Ok and the output result of the input function if Err"""
+
+    def uppercase(message: str) -> rm.Result[str, str]:
+        return rm.Err(message.upper())
+
+    ok = rm.Ok("Original Ok result")
+    assert ok.or_else(uppercase) == ok
+
+    err = rm.Err("Some error message")
+    assert err.or_else(uppercase) == rm.Err("SOME ERROR MESSAGE")

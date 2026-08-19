@@ -24,6 +24,9 @@ class Ok[T, E = Any]:
     def or_[F](self, result: Result[T, F]) -> Result[T, F]:
         return cast(Result[T, F], self)
 
+    def or_else[F](self, func: Callable[[E], Result[T, F]]) -> Result[T, F]:
+        return cast(Result[T, F], self)
+
 
 @dataclass(frozen=True, slots=True)
 class Err[E, T = Any]:
@@ -43,3 +46,6 @@ class Err[E, T = Any]:
 
     def or_[F](self, result: Result[T, F]) -> Result[T, F]:
         return result
+
+    def or_else[F](self, func: Callable[[E], Result[T, F]]) -> Result[T, F]:
+        return func(self.value)
