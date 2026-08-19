@@ -48,6 +48,9 @@ class Ok[T, E = Any]:
     def unwrap_err(self) -> E:
         raise Panic(f"Called Result.unwrap_err() on an Ok value, {self.value}")
 
+    def unwrap_or(self, default: T) -> T:
+        return self.value
+
 
 @dataclass(frozen=True, slots=True)
 class Err[E, T = Any]:
@@ -89,3 +92,6 @@ class Err[E, T = Any]:
 
     def unwrap_err(self) -> E:
         return self.value
+
+    def unwrap_or(self, default: T) -> T:
+        return default
