@@ -2,6 +2,8 @@ from collections.abc import Callable
 from dataclasses import dataclass
 from typing import Any, cast
 
+from rm._panic import Panic
+
 type Result[T, E] = Ok[T, E] | Err[E, T]
 
 
@@ -34,6 +36,9 @@ class Ok[T, E = Any]:
     def or_else[F](self, func: Callable[[E], Result[T, F]]) -> Result[T, F]:
         return cast(Result[T, F], self)
 
+    def unwrap(self) -> T:
+        return self.value
+
 
 @dataclass(frozen=True, slots=True)
 class Err[E, T = Any]:
@@ -63,3 +68,6 @@ class Err[E, T = Any]:
 
     def or_else[F](self, func: Callable[[E], Result[T, F]]) -> Result[T, F]:
         return func(self.value)
+
+    def unwrap(self) -> T:
+        raise Panic(f"Called Result.unwrap() on an Err value, {self.value}")

@@ -1,5 +1,7 @@
 from unittest import mock
 
+import pytest
+
 import rm
 
 
@@ -122,3 +124,13 @@ def test_or_else() -> None:
 
     err = rm.Err("Some error message")
     assert err.or_else(uppercase) == rm.Err("SOME ERROR MESSAGE")
+
+
+def test_unwrap() -> None:
+    """unwrap should return the wrapped value if Ok and should raise Panic if Err"""
+    ok = rm.Ok(0)
+    assert ok.unwrap() == 0
+
+    err = rm.Err("Some error message")
+    with pytest.raises(rm.Panic):
+        err.unwrap()
