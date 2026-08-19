@@ -51,6 +51,9 @@ class Ok[T, E = Any]:
     def unwrap_or(self, default: T) -> T:
         return self.value
 
+    def unwrap_or_else(self, default: Callable[[E], T]) -> T:
+        return self.value
+
 
 @dataclass(frozen=True, slots=True)
 class Err[E, T = Any]:
@@ -95,3 +98,6 @@ class Err[E, T = Any]:
 
     def unwrap_or(self, default: T) -> T:
         return default
+
+    def unwrap_or_else(self, default: Callable[[E], T]) -> T:
+        return default(self.value)

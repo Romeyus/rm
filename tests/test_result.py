@@ -182,3 +182,12 @@ def test_unwrap_or() -> None:
 
     err = rm.Err("Some error message")
     assert err.unwrap_or(1) == 1
+
+
+def test_unwrap_or_else() -> None:
+    """unwrap_or_else should return the wrapped value if Ok and should return the result of default if Err"""
+    ok = rm.Ok(1)
+    assert ok.unwrap_or_else(int) == 1
+
+    err = rm.Err("123")
+    assert err.unwrap_or_else(int) == 123
