@@ -103,3 +103,11 @@ def test_ok_or_else() -> None:
 
     assert rm.Some(0).ok_or_else(error) == rm.Ok(0)
     assert rm.Nothing.ok_or_else(error) == rm.Err("missing value")
+
+
+def test_or_() -> None:
+    """Should return `self` if `Some`; else `maybe`."""
+
+    assert rm.Some(0).or_(rm.Some(1)) == rm.Some(0)
+    assert rm.Some(0).or_(rm.Nothing) == rm.Some(0)
+    assert rm.Nothing.or_(rm.Some(0)) == rm.Some(0)

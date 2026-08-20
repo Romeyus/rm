@@ -39,6 +39,9 @@ class Some[T]:
     def ok_or_else[E](self, error: Callable[[], E]) -> Result[T, E]:
         return Ok(self.value)
 
+    def or_(self, maybe: Maybe[T]) -> Maybe[T]:
+        return self
+
 
 class Nothing[T = Any]:
     value: ClassVar[None] = None
@@ -78,3 +81,7 @@ class Nothing[T = Any]:
     @staticmethod
     def ok_or_else[E](error: Callable[[], E]) -> Result[T, E]:
         return Err(error())
+
+    @staticmethod
+    def or_(maybe: Maybe[T]):
+        return maybe
