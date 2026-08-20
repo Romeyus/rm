@@ -43,6 +43,16 @@ def test_and_then() -> None:
     assert err.and_then(square_root) == err
 
 
+def test_expect() -> None:
+    """expect should return the unwrapped value if Ok else raise Panic with message"""
+    ok = rm.Ok(0)
+    assert ok.expect("My expect message") == 0
+
+    err = rm.Err("Some error message")
+    with pytest.raises(rm.Panic, match=r"My expect message"):
+        err.expect("My expect message")
+
+
 def test_inspect() -> None:
     """inspect should be called once if Ok and should not be called if Err"""
     mock_func = mock.Mock()
