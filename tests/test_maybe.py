@@ -151,3 +151,10 @@ def test_unwrap_or() -> None:
 
     assert rm.Some(0).unwrap_or(1) == 0
     assert rm.Nothing.unwrap_or(1) == 1
+
+
+def test_unwrap_or_else() -> None:
+    """Should return unwrapped value if `Some`; else result of `default`."""
+
+    assert rm.Some(0).unwrap_or_else(lambda: 1) == 0
+    assert rm.Nothing.unwrap_or_else(lambda: 1) == 1
