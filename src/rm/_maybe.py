@@ -26,6 +26,9 @@ class Some[T]:
     def map[U](self, func: Callable[[T], U]) -> Maybe[U]:
         return Some(func(self.value))
 
+    def map_or[U](self, default: U, func: Callable[[T], U]) -> U:
+        return func(self.value)
+
 
 class Nothing[T = Any]:
     value: ClassVar[None] = None
@@ -49,3 +52,7 @@ class Nothing[T = Any]:
     @staticmethod
     def map[U](func: Callable[[T], U]) -> Maybe[U]:
         return Nothing
+
+    @staticmethod
+    def map_or[U](default: U, func: Callable[[T], U]) -> U:
+        return default
