@@ -1,7 +1,7 @@
 [project]
 name = "rm"
 version = "0.1.0"
-description = "Add your description here"
+description = "Provides the Result and Maybe monads for effective functional programming."
 readme = "README.md"
 authors = [
     { name = "Romeyus", email = "marco.possamai@proton.me" }
