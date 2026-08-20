@@ -1,3 +1,5 @@
+from unittest import mock
+
 import pytest
 
 import rm
@@ -53,6 +55,20 @@ def test_filter() -> None:
     assert rm.Some(4).filter(is_even) == rm.Some(4)
     assert rm.Some(3).filter(is_even) == rm.Nothing
     assert rm.Nothing.filter(is_even) == rm.Nothing
+
+
+def test_inspect() -> None:
+    """Should call `func` once if `Some`; else should not call `func`."""
+
+    mock_func = mock.Mock()
+
+    rm.Some(0).inspect(mock_func)
+    mock_func.assert_called_once()
+
+    mock_func.reset_mock()
+
+    rm.Nothing.inspect(mock_func)
+    mock_func.assert_not_called()
 
 
 def test_map() -> None:
