@@ -73,3 +73,16 @@ def test_map_or() -> None:
 
     assert rm.Some("hello world").map_or("DEFAULT", uppercase) == "HELLO WORLD"
     assert rm.Nothing.map_or("DEFAULT", uppercase) == "DEFAULT"
+
+
+def test_map_or_else() -> None:
+    """Should return result of `func` if `Some`; else result of `default`."""
+
+    def apply(message: str) -> str:
+        return message.upper()
+
+    def apply_default() -> str:
+        return "DEFAULT"
+
+    assert rm.Some("hello world").map_or_else(apply_default, apply) == "HELLO WORLD"
+    assert rm.Nothing.map_or_else(apply_default, apply) == "DEFAULT"
