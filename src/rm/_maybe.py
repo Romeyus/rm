@@ -49,6 +49,9 @@ class Some[T]:
     def or_else(self, func: Callable[[], Maybe[T]]) -> Maybe[T]:
         return self
 
+    def unwrap(self) -> T:
+        return self.value
+
 
 class Nothing[T = Any]:
     value: ClassVar[None] = None
@@ -100,3 +103,7 @@ class Nothing[T = Any]:
     @staticmethod
     def or_else(func: Callable[[], Maybe[T]]) -> Maybe[T]:
         return func()
+
+    @staticmethod
+    def unwrap() -> T:
+        raise Panic("Called Maybe.unwrap() on a Nothing value")

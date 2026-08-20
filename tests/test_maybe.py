@@ -135,3 +135,12 @@ def test_or_else() -> None:
     assert rm.Some(0).or_else(lambda: rm.Some(1)) == rm.Some(0)
     assert rm.Some(0).or_else(lambda: rm.Nothing) == rm.Some(0)
     assert rm.Nothing.or_else(lambda: rm.Some(0)) == rm.Some(0)
+
+
+def test_unwrap() -> None:
+    """Should return unwrapped value if `Some`; else raises `Panic`."""
+
+    assert rm.Some(0).unwrap() == 0
+
+    with pytest.raises(rm.Panic):
+        rm.Nothing.unwrap()
