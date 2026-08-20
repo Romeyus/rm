@@ -144,3 +144,10 @@ def test_unwrap() -> None:
 
     with pytest.raises(rm.Panic):
         rm.Nothing.unwrap()
+
+
+def test_unwrap_or() -> None:
+    """Should return unwrapped value if `Some`; else `default`."""
+
+    assert rm.Some(0).unwrap_or(1) == 0
+    assert rm.Nothing.unwrap_or(1) == 1

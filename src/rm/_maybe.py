@@ -52,6 +52,9 @@ class Some[T]:
     def unwrap(self) -> T:
         return self.value
 
+    def unwrap_or(self, default: T) -> T:
+        return self.value
+
 
 class Nothing[T = Any]:
     value: ClassVar[None] = None
@@ -107,3 +110,7 @@ class Nothing[T = Any]:
     @staticmethod
     def unwrap() -> T:
         raise Panic("Called Maybe.unwrap() on a Nothing value")
+
+    @staticmethod
+    def unwrap_or(default: T) -> T:
+        return default
