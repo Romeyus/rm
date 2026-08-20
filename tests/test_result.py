@@ -6,7 +6,8 @@ import rm
 
 
 def test_value() -> None:
-    """value should return the wrapped value"""
+    """Should return unwrapped value."""
+
     ok = rm.Ok(0)
     assert ok.value == 0
 
@@ -15,7 +16,8 @@ def test_value() -> None:
 
 
 def test_and_() -> None:
-    """and_ should return the input result if Ok and self if Err"""
+    """Should return `result` if `Ok` else `self`."""
+
     result_ok = rm.Ok("Input Ok result")
     result_err = rm.Err("Input Err result")
 
@@ -29,7 +31,7 @@ def test_and_() -> None:
 
 
 def test_and_then() -> None:
-    """and_then should return the output result of the input function if Ok and self if Err"""
+    """Should return result of `func` if `Ok` else `self`."""
 
     def square_root(number: int) -> rm.Result[float, str]:
         if number < 0:
@@ -44,7 +46,8 @@ def test_and_then() -> None:
 
 
 def test_expect() -> None:
-    """expect should return the unwrapped value if Ok else raise Panic with message"""
+    """Should return unwrapped value if `Ok` else raises `Panic` with `message`."""
+
     ok = rm.Ok(0)
     assert ok.expect("My expect message") == 0
 
@@ -54,7 +57,8 @@ def test_expect() -> None:
 
 
 def test_expect_err() -> None:
-    """expect_err should return the unwrapped value if Err else raise Panic with message"""
+    """Should return unwrapped value if `Err` else raises `Panic` with `message`."""
+
     ok = rm.Ok(0)
     with pytest.raises(rm.Panic, match=r"My expect message"):
         ok.expect_err("My expect message")
@@ -64,7 +68,8 @@ def test_expect_err() -> None:
 
 
 def test_inspect() -> None:
-    """inspect should be called once if Ok and should not be called if Err"""
+    """Should call `func` once if `Ok`. Always returns `self`."""
+
     mock_func = mock.Mock()
 
     ok = rm.Ok(0)
@@ -79,7 +84,8 @@ def test_inspect() -> None:
 
 
 def test_inspect_err() -> None:
-    """inspect_err should not be called if Ok and should be called once if Err"""
+    """Should call `func` once if `Err`. Always returns `self`."""
+
     mock_func = mock.Mock()
 
     ok = rm.Ok(0)
@@ -94,7 +100,7 @@ def test_inspect_err() -> None:
 
 
 def test_map() -> None:
-    """map should return an Ok with the value of the applied function if Ok and self if Err"""
+    """Should return `Ok[U]`, where `U` is result of `func`, if `Ok` else `self`."""
 
     def apply(message: str) -> str:
         return message.upper()
@@ -107,7 +113,7 @@ def test_map() -> None:
 
 
 def test_map_err() -> None:
-    """map_err should return self if Ok and an Err with the value of the applied function if Err"""
+    """Should return `Err[F]`, where `F` is result of `func`, if `Err` else `self`."""
 
     def apply(message: str) -> str:
         return message.upper()
@@ -120,7 +126,7 @@ def test_map_err() -> None:
 
 
 def test_map_or() -> None:
-    """map_or should return the result of func if Ok and should return default if Err"""
+    """Should return result of `func` if `Ok` else `default`."""
 
     def apply(message: str) -> str:
         return message.upper()
@@ -133,7 +139,7 @@ def test_map_or() -> None:
 
 
 def test_map_or_else() -> None:
-    """map_or_else should return the result of func if Ok and should return the result of default if Err"""
+    """Should return result of `func` if `Ok` else result of `default`."""
 
     def apply(message: str) -> str:
         return message.upper()
@@ -149,7 +155,8 @@ def test_map_or_else() -> None:
 
 
 def test_or_() -> None:
-    """or_ should return self if Ok and the input result if Err"""
+    """Should return `result` if `Err` else `self`."""
+
     result_ok = rm.Ok("Input Ok result")
     result_err = rm.Err("Input Err result")
 
@@ -163,7 +170,7 @@ def test_or_() -> None:
 
 
 def test_or_else() -> None:
-    """or_else should return self if Ok and the output result of the input function if Err"""
+    """Should return result of `func` if `Err` else `self`."""
 
     def uppercase(message: str) -> rm.Result[str, str]:
         return rm.Err(message.upper())
@@ -176,7 +183,8 @@ def test_or_else() -> None:
 
 
 def test_unwrap() -> None:
-    """unwrap should return the wrapped value if Ok and should raise Panic if Err"""
+    """Should return unwrapped value if `Ok` else raises `Panic`."""
+
     ok = rm.Ok(0)
     assert ok.unwrap() == 0
 
@@ -186,7 +194,8 @@ def test_unwrap() -> None:
 
 
 def test_unwrap_err() -> None:
-    """unwrap_err should raise Panic if Ok and should return the wrapped value if Err"""
+    """Should return unwrapped value if `Err` else raises `Panic`."""
+
     ok = rm.Ok(0)
     with pytest.raises(rm.Panic):
         ok.unwrap_err()
@@ -196,7 +205,8 @@ def test_unwrap_err() -> None:
 
 
 def test_unwrap_or() -> None:
-    """unwrap_or should return the wrapped value if Ok and should return default if Err"""
+    """Should return unwrapped value if `Ok` else `default`."""
+
     ok = rm.Ok(0)
     assert ok.unwrap_or(1) == 0
 
@@ -205,7 +215,8 @@ def test_unwrap_or() -> None:
 
 
 def test_unwrap_or_else() -> None:
-    """unwrap_or_else should return the wrapped value if Ok and should return the result of default if Err"""
+    """Should return unwrapped value if `Ok` else result of `default`."""
+
     ok = rm.Ok(1)
     assert ok.unwrap_or_else(int) == 1
 
