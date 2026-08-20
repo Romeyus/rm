@@ -111,3 +111,11 @@ def test_or_() -> None:
     assert rm.Some(0).or_(rm.Some(1)) == rm.Some(0)
     assert rm.Some(0).or_(rm.Nothing) == rm.Some(0)
     assert rm.Nothing.or_(rm.Some(0)) == rm.Some(0)
+
+
+def test_or_else() -> None:
+    """Should return `self` if `Some`; else result of `func`."""
+
+    assert rm.Some(0).or_else(lambda: rm.Some(1)) == rm.Some(0)
+    assert rm.Some(0).or_else(lambda: rm.Nothing) == rm.Some(0)
+    assert rm.Nothing.or_else(lambda: rm.Some(0)) == rm.Some(0)

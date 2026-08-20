@@ -42,6 +42,9 @@ class Some[T]:
     def or_(self, maybe: Maybe[T]) -> Maybe[T]:
         return self
 
+    def or_else(self, func: Callable[[], Maybe[T]]) -> Maybe[T]:
+        return self
+
 
 class Nothing[T = Any]:
     value: ClassVar[None] = None
@@ -85,3 +88,7 @@ class Nothing[T = Any]:
     @staticmethod
     def or_(maybe: Maybe[T]):
         return maybe
+
+    @staticmethod
+    def or_else(func: Callable[[], Maybe[T]]) -> Maybe[T]:
+        return func()
