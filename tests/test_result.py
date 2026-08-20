@@ -53,6 +53,16 @@ def test_expect() -> None:
         err.expect("My expect message")
 
 
+def test_expect_err() -> None:
+    """expect_err should return the unwrapped value if Err else raise Panic with message"""
+    ok = rm.Ok(0)
+    with pytest.raises(rm.Panic, match=r"My expect message"):
+        ok.expect_err("My expect message")
+
+    err = rm.Err("Some error message")
+    assert err.expect_err("My expect message") == "Some error message"
+
+
 def test_inspect() -> None:
     """inspect should be called once if Ok and should not be called if Err"""
     mock_func = mock.Mock()

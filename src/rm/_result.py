@@ -20,6 +20,9 @@ class Ok[T, E = Any]:
     def expect(self, message: str) -> T:
         return self.value
 
+    def expect_err(self, message: str) -> E:
+        raise Panic(message)
+
     def inspect(self, func: Callable[[T], Any]) -> Result[T, E]:
         func(self.value)
         return self
@@ -70,6 +73,9 @@ class Err[E, T = Any]:
 
     def expect(self, message: str) -> T:
         raise Panic(message)
+
+    def expect_err(self, message: str) -> E:
+        return self.value
 
     def inspect(self, func: Callable[[T], Any]) -> Result[T, E]:
         return self
