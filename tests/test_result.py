@@ -35,11 +35,16 @@ def test_and_then() -> None:
 
     def square_root(number: int) -> rm.Result[float, str]:
         if number < 0:
-            return rm.Err("cannot square root a negative number")
+            return rm.Err("cannot get square root of negative number")
         return rm.Ok(number**0.5)
 
     ok = rm.Ok(100)
     assert ok.and_then(square_root) == rm.Ok(10.0)
+
+    ok = rm.Ok(-100)
+    assert ok.and_then(square_root) == rm.Err(
+        "cannot get square root of negative number"
+    )
 
     err = rm.Err("Some error message")
     assert err.and_then(square_root) == err
