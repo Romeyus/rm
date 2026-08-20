@@ -53,3 +53,13 @@ def test_filter() -> None:
     assert rm.Some(4).filter(is_even) == rm.Some(4)
     assert rm.Some(3).filter(is_even) == rm.Nothing
     assert rm.Nothing.filter(is_even) == rm.Nothing
+
+
+def test_map() -> None:
+    """Should return `Some[U], where `U` is result of `func`, if `Some`; else `Nothing`."""
+
+    def uppercase(message: str) -> str:
+        return message.upper()
+
+    assert rm.Some("hello world").map(uppercase) == rm.Some("HELLO WORLD")
+    assert rm.Nothing.map(uppercase) == rm.Nothing

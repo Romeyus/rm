@@ -23,6 +23,9 @@ class Some[T]:
     def filter(self, predicate: Callable[[T], bool]) -> Maybe[T]:
         return self if predicate(self.value) else Nothing
 
+    def map[U](self, func: Callable[[T], U]) -> Maybe[U]:
+        return Some(func(self.value))
+
 
 class Nothing[T = Any]:
     value: ClassVar[None] = None
@@ -41,4 +44,8 @@ class Nothing[T = Any]:
 
     @staticmethod
     def filter(predicate: Callable[[T], bool]) -> Maybe[T]:
+        return Nothing
+
+    @staticmethod
+    def map[U](func: Callable[[T], U]) -> Maybe[U]:
         return Nothing
