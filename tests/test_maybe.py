@@ -93,3 +93,13 @@ def test_ok_or() -> None:
 
     assert rm.Some(0).ok_or("missing value") == rm.Ok(0)
     assert rm.Nothing.ok_or("missing value") == rm.Err("missing value")
+
+
+def test_ok_or_else() -> None:
+    """Should return `Ok` with the wrapped value if `Some`; else `Err` with the result of `error`."""
+
+    def error() -> str:
+        return "missing value"
+
+    assert rm.Some(0).ok_or_else(error) == rm.Ok(0)
+    assert rm.Nothing.ok_or_else(error) == rm.Err("missing value")
