@@ -86,3 +86,10 @@ def test_map_or_else() -> None:
 
     assert rm.Some("hello world").map_or_else(apply_default, apply) == "HELLO WORLD"
     assert rm.Nothing.map_or_else(apply_default, apply) == "DEFAULT"
+
+
+def test_ok_or() -> None:
+    """Should return `Ok` with the wrapped value if `Some`; else `Err` with `error`."""
+
+    assert rm.Some(0).ok_or("missing value") == rm.Ok(0)
+    assert rm.Nothing.ok_or("missing value") == rm.Err("missing value")

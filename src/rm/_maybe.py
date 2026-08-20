@@ -3,6 +3,7 @@ from dataclasses import dataclass
 from typing import Any, ClassVar
 
 from rm._panic import Panic
+from rm._result import Err, Ok, Result
 
 type Maybe[T] = Some[T] | type[Nothing[T]]
 
@@ -31,6 +32,9 @@ class Some[T]:
 
     def map_or_else[U](self, default: Callable[[], U], func: Callable[[T], U]) -> U:
         return func(self.value)
+
+    def ok_or[E](self, error: E) -> Result[T, E]:
+        return Ok(self.value)
 
 
 class Nothing[T = Any]:
@@ -63,3 +67,7 @@ class Nothing[T = Any]:
     @staticmethod
     def map_or_else[U](default: Callable[[], U], func: Callable[[T], U]) -> U:
         return default()
+
+    @staticmethod
+    def ok_or[E](error: E) -> Result[T, E]:
+        return Err(error)
