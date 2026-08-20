@@ -42,3 +42,14 @@ def test_expect() -> None:
 
     with pytest.raises(rm.Panic, match=r"my expect message"):
         rm.Nothing.expect("my expect message")
+
+
+def test_filter() -> None:
+    """Should return `self` if `Some` and result of `predicate` is `True`; else `Nothing`."""
+
+    def is_even(x: int) -> bool:
+        return x % 2 == 0
+
+    assert rm.Some(4).filter(is_even) == rm.Some(4)
+    assert rm.Some(3).filter(is_even) == rm.Nothing
+    assert rm.Nothing.filter(is_even) == rm.Nothing

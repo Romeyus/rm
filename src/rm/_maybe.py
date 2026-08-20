@@ -20,6 +20,9 @@ class Some[T]:
     def expect(self, message: str) -> T:
         return self.value
 
+    def filter(self, predicate: Callable[[T], bool]) -> Maybe[T]:
+        return self if predicate(self.value) else Nothing
+
 
 class Nothing[T = Any]:
     value: ClassVar[None] = None
@@ -35,3 +38,7 @@ class Nothing[T = Any]:
     @staticmethod
     def expect(message: str) -> T:
         raise Panic(message)
+
+    @classmethod
+    def filter(cls, predicate: Callable[[T], bool]) -> Maybe[T]:
+        return cls
