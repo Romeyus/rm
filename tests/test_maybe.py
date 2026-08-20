@@ -1,3 +1,5 @@
+import pytest
+
 import rm
 
 
@@ -30,3 +32,13 @@ def test_and_then() -> None:
 
     assert rm.Nothing.and_then(lambda v: rm.Some(v + 1)) == rm.Nothing
     assert rm.Nothing.and_then(lambda _: rm.Nothing) == rm.Nothing
+
+
+def test_expect() -> None:
+    """Should return unwrapped value if `Some`; else raises `Panic` with content `message`."""
+
+    some = rm.Some(0)
+    assert some.expect("my expect message") == 0
+
+    with pytest.raises(rm.Panic, match=r"my expect message"):
+        rm.Nothing.expect("my expect message")
