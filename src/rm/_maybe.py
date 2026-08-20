@@ -1,6 +1,6 @@
 from collections.abc import Callable
 from dataclasses import dataclass
-from typing import Any, ClassVar, cast
+from typing import Any, ClassVar
 
 from rm._panic import Panic
 
@@ -27,18 +27,18 @@ class Some[T]:
 class Nothing[T = Any]:
     value: ClassVar[None] = None
 
-    @classmethod
-    def and_[U](cls, maybe: Maybe[U]) -> Maybe[U]:
-        return cast(Maybe[U], cls)
+    @staticmethod
+    def and_[U](maybe: Maybe[U]) -> Maybe[U]:
+        return Nothing
 
-    @classmethod
-    def and_then[U](cls, func: Callable[[T], Maybe[U]]) -> Maybe[U]:
-        return cast(Maybe[U], cls)
+    @staticmethod
+    def and_then[U](func: Callable[[T], Maybe[U]]) -> Maybe[U]:
+        return Nothing
 
     @staticmethod
     def expect(message: str) -> T:
         raise Panic(message)
 
-    @classmethod
-    def filter(cls, predicate: Callable[[T], bool]) -> Maybe[T]:
-        return cls
+    @staticmethod
+    def filter(predicate: Callable[[T], bool]) -> Maybe[T]:
+        return Nothing
