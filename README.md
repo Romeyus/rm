@@ -1,4 +1,4 @@
-# py-rm
+# python-rm
 
 Provides the `Result` and `Maybe` monads for effective functional programming.
 
@@ -7,13 +7,13 @@ Provides the `Result` and `Maybe` monads for effective functional programming.
 With uv (recommended):
 
 ```bash
-uv add py-rm
+uv add python-rm
 ```
 
 With pip:
 
 ```bash
-pip install py-rm
+pip install python-rm
 ```
 
 ## Examples
