@@ -1,5 +1,5 @@
 [project]
-name = "rm"
+name = "py-rm"
 version = "0.1.0"
 description = "Provides the Result and Maybe monads for effective functional programming."
 readme = "README.md"
